@@ -1,0 +1,85 @@
+<div class="body">
+
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h2>Puppy of the day!</h2>
+  </div>
+</div>
+
+<div class="puppy_today">
+  <div class="row" id="day">
+    <div class="col-md-3 col-lg-3">
+      <img class="vertical-center" src="{{puppy.image}}" alt="">
+    </div>
+    <div class="col-md-6 col-lg-6" id="content">
+      <h1>{{puppy.name}}</h1>
+      <p>{{puppy.description}}</p>
+    </div>
+    <div class="col-md-2 col-lg-2" id="price">
+      <h1>${{puppy.price}}</h1>
+      <h4>{{puppy.location}}</h4>
+    </div>
+  </div>
+</div><br>
+
+
+
+<div class="row" id="center">
+
+
+
+
+  <div class="col-md-4 col-lg-4 col-lg-offset-4 col-md-offset-4" id="login" *ngIf="login == true">
+    <form>
+      <br>
+
+          <p>Email:</p>
+          <input placeholder="email" name="email" [(ngModel)]='user.email' #email='ngModel'><br><br>
+
+          <p>Password:</p>
+          <input type="password" placeholder="password" name='password' [(ngModel)]='user.password' #password='ngModel'><br><br>
+
+          <button type="button" name="button" class="btn btn-success" (click)="checkPassword(user.password, user.email)">Login</button><br><br>
+          <span *ngIf="credentials == false">Incorrect email or password.</span>
+    </form>
+    <p>Not a user? <a (click)="onClick()">Become one!</a></p>
+  </div>
+
+
+
+
+  <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="signup" *ngIf="login == false">
+    <form name="formData" #formData="ngForm" (submit)="onSubmit(formData)">
+      <br>
+
+      <p>*First Name:</p>
+      <input placeholder="first name" name='firstname' [(ngModel)]='user.firstname' #firstname='ngModel' required><br><br>
+      <span *ngIf="!firstname.valid && firstname.dirty">First name required</span>
+
+      <p>*Last Name:</p>
+      <input placeholder="last name" name='lastname' [(ngModel)]='user.lastname' #lastname='ngModel' required><br><br>
+      <span *ngIf="!lastname.valid && lastname.dirty">Last name required</span>
+
+      <p>*Email:</p>
+      <input placeholder="email" name='email' [(ngModel)]='user.email' #email='ngModel' required pattern='^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'><br><br>
+      <span *ngIf="!email.valid && email.dirty">Invalid Email</span>
+
+
+      <p>*Password:</p>
+      <input type="password" placeholder="password" name='password' [(ngModel)]='user.password' #password='ngModel' required><br><br>
+
+      <p>*Password Confirmation:</p>
+      <input type="password" placeholder="confirm password" name='confirm' [(ngModel)]='user.confirm' #confirm='ngModel' required><br><br>
+      <span *ngIf="(user.password != user.confirm) && password.dirty && confirm.dirty">Passwords do not match.</span>
+
+
+      <button type="submit" name="button" class="btn btn-primary" [disabled]="!(formData.valid)">Register</button><br><br>
+      <span *ngIf="exists == true">User already exists</span>
+
+    </form>
+    <p>Already a user? <a (click)="onSign()">Sign In</a></p>
+  </div>
+
+</div>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="row">
+  <p><a [routerLink]="['browse']">Browse</a> &nbsp; &nbsp; <b>|</b> &nbsp; &nbsp;<a [routerLink]="['mylistings']">My Listings</a> &nbsp; &nbsp; <b>|</b> &nbsp; &nbsp;<a (click)="logOut()">Log Out</a></p>
+</div>
+
+<div class="row" id="new_listing">
+<form name="formData" #formData="ngForm" (submit)="onSubmit(formData)">
+  <h2>Create Listing</h2>
+  <div class="col-md-3 col-lg-3">
+    <h4>Image URL Upload</h4>
+    <input name="image" [(ngModel)]='puppy.image' #image='ngModel'>
+  </div>
+
+    <div class="col-md-6 col-lg-6">
+      <h5>Name:</h5>
+      <input name="name" placeholder="name" [(ngModel)]='puppy.name' #name='ngModel' required><br>
+      <span *ngIf="!name.valid && name.dirty">Don't forget to name your puppy :)</span>
+      <h5>Description:</h5>
+      <textarea name="description" placeholder="description" [(ngModel)]='puppy.description' #description='ngModel' required maxlength="315" id="desc"></textarea><br>
+      <span>({{description.value.length}}/315)</span>
+      <span *ngIf="!description.valid && description.dirty">Please provide a description.</span>
+      <br><br>
+    </div>
+    <div class="col-md-2 col-lg-2" id="details">
+      <h5>Price:</h5>
+      <input name="price" [(ngModel)]='puppy.price' #price='ngModel' required minlength="1">
+      <span *ngIf="!price.valid && price.dirty">Price required</span>
+      <h5>Location:</h5>
+      <input name="location" [(ngModel)]='puppy.location' #location='ngModel' required><br><br>
+      <span *ngIf="!location.valid && location.dirty">Where is your puppy located?</span>
+      <button type="submit" name="submit" class="btn btn-success" [disabled]="!(formData.valid)">Create</button>
+    </div>
+  </form>
+
+</div><br><br>
+
+<div id="background">
+  <h2>Edit Listings</h2>
+  <div *ngFor="let puppy of puppies">
+    <div class="row" id="border">
+    <div *ngIf="puppy._user == userID" class="row">
+      <form name="formData" #formData="ngForm" (submit)="update(formData, puppy._id)">
+        <div class="col-md-3 col-lg-3">
+          <h4>Image Upload</h4>
+          <input name="image" [(ngModel)]='puppy.image' #image='ngModel'>          
+        </div>
+
+          <div class="col-md-6 col-lg-6">
+            <h5>Name:</h5>
+            <input name="name" placeholder="name" [(ngModel)]='puppy.name' #name='ngModel' required placeholder="{{puppy.name}}"><br>
+            <span *ngIf="!name.valid && name.dirty">Don't forget to name your puppy :)</span>
+            <h5>Description:</h5>
+            <textarea name="description" placeholder="description" [(ngModel)]='puppy.description' #description='ngModel' required maxlength="315" id="desc" placeholder="{{puppy.description}}"></textarea><br>
+            <span *ngIf="!description.valid && description.dirty">Please provide a description.</span>
+            <br><br>
+          </div>
+          <div class="col-md-2 col-lg-2" id="details">
+            <h5>Price:</h5>
+            <input name="price" [(ngModel)]='puppy.price' #price='ngModel' required placeholder="${{puppy.price}}">
+            <span *ngIf="!price.valid && price.dirty">Price required</span>
+            <h5>Location:</h5>
+            <input name="location" [(ngModel)]='puppy.location' #location='ngModel' required placeholder="{{puppy.location}}"><br><br>
+            <span *ngIf="!location.valid && location.dirty">Where is your puppy located?</span>
+            <button type="submit" class="btn btn-warning" [disabled]="!formData.dirty">Update</button>
+          </div>
+        </form>
+    </div>
+    <div *ngIf="puppy._user == userID" class="row">
+      <div class="col-md-2 col-lg-2 col-lg-offset-9 col-md-offset-9" id="details">
+        <button class="btn btn-danger" (click)="delete(puppy._id)">Delete</button>
+      </div><br><br>
+    </div>
+    </div>
+  </div>
+</div>
